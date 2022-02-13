@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@2.1.0/dist/quasar.umd.prod.js" defer></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+    <body>
+        <div id="app"> 
+           
+            <div id="maincontainer"  v-show="show" class="maincontainer" >
+                <div class="top">
+                    <p class="top_text"> Здесь можно купить </p>
+                    <p class="top_text">  или продать ваш бизнес</p>
+                    <div class="list_container" :key="componentKey">
+                        <div v-for="item in storage" :key="item.id" >
+                            <div class ="list" > 
+                              
+                                <div v-if="isShop(item.name)" style="width: 50px;height: 50px;" :style="{background: 'center / 100% no-repeat url(img/247.png)' }">
+                                    <!--<img className="list_img" src={{'../img/'+item.img}} alt="упс"/> -->
+                                </div>  
+                                <div v-else-if="isGas(item.name)" style="width: 50px;height: 50px;" :style="{background: 'center / 100% no-repeat url(img/petrol.png)' }">
+                                    <!--<img className="list_img" src={{'../img/'+item.img}} alt="упс"/> -->
+                                </div>  
+                                <div v-else style="width: 50px;height: 50px;" :style="{ background: 'center / 100% no-repeat url(img/'+item.name+'.png)'}">
+                                    <!--<img className="list_img" src={{'../img/'+item.img}} alt="упс"/> -->
+                                </div>  
+                                <div>{{item.label}}</div>
+                                <button @click="are_you_sure('buy', item)" v-if="item.owner.length === 0" class="btn buy dollar">
+                                    Купить за $ {{item.price}}
+                                    <div class="dollar"></div>
+                                </button>
+                              
+                                <template v-if="isOwner(item.owner)">
+                                    <button @click="are_you_sure('sale', item)" v-if="item.owner.length > 0" class="btn sale dollar">
+                                        Продать за $ {{Math.round(item.price/2)}} 
+                                        <div class="dollar"></div>
+                                    </button>
+                                </template>
+                                
+                               
+                            </div>
+                        </div>
+                        <div v-show="modalWindowShoing">
+                                   
+                            <div class="dialog">
+                                <div  class="dialog__content">
+                                    <p style="justify-content: center;
+                                    align-items: center;text-align: center;">{{dialogContent}}?</p>
+                                    <div style="display: flex;">
+                                        <button 
+                                        class="btn buy"
+                                        @click="btnAccept"
+                                        
+                                        >
+                                            Да
+                                        </button>
+                                        <button 
+                                        class="btn sale"
+                                        @click="btnCancel"
+                                        style="flex-direction: space-between;"
+                                        >
+                                            Нет
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+    
+    <script src="./js/app.js"></script>
+    
+</html>
